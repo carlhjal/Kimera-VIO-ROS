@@ -9,6 +9,8 @@
   <arg name="online" default="true" />
   <arg name="do_coarse_temporal_sync" default="false"/>
   <arg name="do_fine_temporal_sync" default="false"/>
+  <arg name="use_lcd" default="true"/>
+  <arg name="lcd_no_detection" default="true"/>
 
   <arg name="log_output" default="false"/>
   <arg name="log_output_path"
@@ -17,7 +19,7 @@
   <arg name="log_gt_data" default="false"/>
   <arg name="gt_topic" default=""/>
   <!-- Set use_sim_time to true if you use rosbag with clock argument -->
-  <arg name="should_use_sim_time" default="false"/>
+  <arg name="should_use_sim_time" default="true"/>
 
   <!-- Only used when parsing a rosbag -->
   <arg name="rosbag_path" default="default.bag"
@@ -41,7 +43,12 @@
            pass_all_args="true"/>
 
  <!-- Launch static TF node from base_link to velo_link -->
- <node pkg="tf" type="static_transform_publisher" name="velo_link_broadcaster"
+   <node pkg="tf" type="static_transform_publisher" name="base_link_broadcaster"
    args="0 0 0 0 0 0 1 base_link velo_link 100"/>
-
+   <node pkg="tf" type="static_transform_publisher" name="camera_link_broadcaster"
+   args="0 0 0 0 0 0 1 velo_link camera_link 100"/>
+   <node pkg="tf" type="static_transform_publisher" name="map_link_broadcaster"
+   args="0 0 0 0 0 0 1 world map 100"/>
+   <node pkg="tf" type="static_transform_publisher" name="optical_frame_link_broadcaster"
+   args="0 0 0 0 0 0 1 velo_link camera_color_optical_frame 100"/>
 </launch>
